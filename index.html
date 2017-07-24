@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>webpack vue</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="./node_modules/vue/dist/vue.min.js"></script>
+	<script src="dist/main.js"></script>
+</head>
+<body>
+	<div id="app1"></div>
+	<div id="app2"></div>
+</body>
+<script>
+Vue.config.debug = true;
+
+function upload() {
+	return new Promise((resolve, reject)=>{
+		let file = document.createElement("input");
+		file.addEventListener("change", x=>{
+			if(file.files.length) {
+				var f = file.files[0];
+				console.log(f);
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					resolve({image:this.result});
+					console.log({image:this.result});
+				};
+				reader.readAsDataURL(f);
+			} else {
+				reject();
+			}
+		})
+		file.type="file";
+		file.addEventListener("cancel", reject)
+		file.click();
+	})
+
+}
+vdf({
+	el:"#app1",
+	value: {
+		a:"11111",
+		list:["a","c"]
+	},
+	submitText:"保存",
+	submit(){console.log(this.value);},
+	list:[
+		{type:"text", title:"文本", id:"text", readonly:false, disabled:false, prompt:"提示文本"},
+		{type:"image", title:"图片", id:"image", upload, },
+		{type:"password", title:"密码", id:"password", readonly:false, disabled:false, prompt:"密码"},
+		{type:"textarea", title:"文本域", id:"textarea", readonly:false, disabled:false, prompt:"文本域提示文本"},
+		{type:"imagelist", title:"图片组", id:"imagelist", upload},
+		{type:"list", title:"单选列表", id:"list", readonly:false, disabled:false, options:[
+			{value:"a",title:"选项1"},
+			{value:"b",title:"选项2"},
+			{value:"c",title:"选项3"},
+			{value:"d",title:"选项4"},
+		],optgroups:[
+			{title:"title", options:[
+				{value:"ax",title:"选项1"},
+				{value:"bx",title:"选项2"},
+				{value:"cx",title:"选项3"},
+				{value:"dx",title:"选项4"},
+			]}
+		]},
+		{type:"list", title:"多选列表", id:"multlist", readonly:false, disabled:false, multiple:true, options:[
+			{value:"a",title:"选项1"},
+			{value:"b",title:"选项2"},
+			{value:"c",title:"选项3"},
+			{value:"d",title:"选项4"},
+		],optgroups:[
+			{title:"title", options:[
+				{value:"ax",title:"选项1"},
+				{value:"bx",title:"选项2"},
+				{value:"cx",title:"选项3"},
+				{value:"dx",title:"选项4"},
+			]}
+		]},
+		{type:"radio", title:"单选项", id:"radio", inline:false, options:[
+			{value:"a",title:"选项1"},
+			{value:"b",title:"选项2"},
+			{value:"c",title:"选项3"},
+			{value:"d",title:"选项4"},
+		]},
+		{type:"check", title:"复选项", id:"check", inline:false, options:[
+			{value:"a",title:"选项1"},
+			{value:"b",title:"选项2"},
+			{value:"c",title:"选项3"},
+			{value:"d",title:"选项4"},
+		]}
+	],
+});
+</script>
+</html>
